@@ -7,18 +7,28 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "build:ios": "expo build:ios",
+    "build:android": "expo build:android"
   },
   "dependencies": {
+    "axios": "^0.25.0",
     "expo": "~44.0.0",
+    "expo-location": "^14.0.2",
+    "expo-permissions": "^13.1.1",
+    "expo-sensors": "^11.1.1",
     "expo-status-bar": "~1.2.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
-    "react-native-web": "0.17.1"
+    "react-native-web": "0.17.1",
+    "vue-native-core": "^0.3.1",
+    "vue-native-helper": "^0.3.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.0.0",
+    "react-error-overlay": "^6.0.9",
+    "vue-native-scripts": "^0.3.1"
   },
   "private": true
 }
