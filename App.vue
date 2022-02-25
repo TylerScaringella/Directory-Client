@@ -6,23 +6,65 @@
           :style="{height: 50, borderColor: 'gray', borderWidth: 2}"
           v-model="filter.name"
           placeholder="enter a name..."
-          :on-value-change="renderedStudents = students.filter(student => student.name.toLowerCase().includes(filter.name.toLowerCase()))"
+          :onSubmitEditing="() => renderedStudents = students.filter(student => student.name.toLowerCase().includes(filter.name.toLowerCase()))"
         />
         <view class="classes">
-          <button 
-            :on-press="updateGrad(2022)"
-            title="2022"
-            color="#841584"
-            accessibility-label="Click to see the class of 2025"
-          />
+          <touchable-opacity 
+            :style="{
+              alignItems: 'center',
+              backgroundColor: '#841584',
+              padding: 15,
+              marginBottom: 5,
+              marginTop: 5
+            }"
+            :on-press="() => updateGrad(2022)"
+            >
+            <text :style="{color: '#fff'}">2022</text>
+          </touchable-opacity>
+          <touchable-opacity 
+            :style="{
+              alignItems: 'center',
+              backgroundColor: '#841584',
+              padding: 15,
+              marginBottom: 5,
+              marginTop: 5
+            }"
+            :on-press="() => updateGrad(2023)"
+            >
+            <text :style="{color: '#fff'}">2023</text>
+          </touchable-opacity>
+          <touchable-opacity 
+            :style="{
+              alignItems: 'center',
+              backgroundColor: '#841584',
+              padding: 15,
+              marginBottom: 5,
+              marginTop: 5
+            }"
+            :on-press="() => updateGrad(2024)"
+            >
+            <text :style="{color: '#fff'}">2024</text>
+          </touchable-opacity>
+          <touchable-opacity 
+            :style="{
+              alignItems: 'center',
+              backgroundColor: '#841584',
+              padding: 15,
+              marginBottom: 5,
+              marginTop: 5
+            }"
+            :on-press="() => updateGrad(2025)"
+            >
+            <text :style="{color: '#fff'}">2025</text>
+          </touchable-opacity>
         </view>
       </view>
       <activity-indicator v-if="students.length == 0" :style="{flex: 1, justifyContent: 'center'}" size="large" color="#0000ff" />
-      <scroll-view v-else :content-container-style="{contentContainer: {
-        paddingVertical: 0
-      }}">
-        <Card v-for="student in renderedStudents" :key="student.email" :student="student" />
-      </scroll-view>
+      <flat-list v-else 
+          :data="renderedStudents"
+          :key-extractor="(item) => item.email"
+          :render-item="(item) => renderItem(item)"
+      />
     </view>
   </view>
 </template>
@@ -31,7 +73,9 @@
 import axios from 'axios'
 
 import Card from './components/Card'
-import { StyleSheet } from 'react-native'
+import React, { StyleSheet, Text } from 'react-native'
+
+const baseURL = `http://10.46.1.175:8081`
 
 export default {
     data() {
@@ -51,15 +95,22 @@ export default {
       StyleSheet
     },
     methods: {
+
       updateGrad(year) {
         this.filter.grad = year
+        this.filter.name = ''
+        this.renderedStudents = this.students.filter(student => student.graduation == this.filter.grad)
+      },
+      renderItem(item) {
+        return (<Card student={item.item} />)
       }
     },
     mounted() {
-      axios.get('http://10.1.232.108:8081/student').then(students => {
+      axios.get(`${baseURL}/student`).then(students => {
         this.students = students.data
         this.renderedStudents = this.students
       })
+
     }
 }
 </script>
