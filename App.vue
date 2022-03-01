@@ -75,7 +75,10 @@ import axios from 'axios'
 import Card from './components/Card'
 import React, { StyleSheet, Text } from 'react-native'
 
-const baseURL = `http://10.46.1.175:8081`
+// Home
+// const baseURL = `http://10.46.1.175:8081`
+// School
+const baseURL = `http://10.1.232.108:8081`
 
 export default {
     data() {

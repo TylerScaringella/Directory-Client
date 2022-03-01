@@ -1,17 +1,28 @@
 <template>
     <view class="card">
-        <text class="name">{{student.name}}</text>
-        <text class="email">{{student.email}}</text>
-        <text class="graduation" :style="{
-            textAlign: 'right'
-        }">Class of {{student.graduation}}</text>
+        <touchable-opacity 
+            :on-press="() => openEmail()"
+            >
+            <text class="name">{{student.name}}</text>
+            <text class="email">{{student.email}}</text>
+            <text class="graduation" :style="{
+                textAlign: 'right'
+            }">Class of {{student.graduation}}</text>
+        </touchable-opacity>
     </view>
 </template>
 
 <script>
+import { Linking } from 'react-native'
+
 export default {
     props: {
         student: {}
+    },
+    methods: {
+        openEmail() {
+            Linking.openURL(`mailto:${this.student.email}`)
+        }
     }
 }
 </script>
@@ -22,8 +33,10 @@ export default {
     border-color: gray;
     border-radius: 5px;
     padding: 15px;
-    margin-top: 30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
     position: relative;
+    width: 400px;
 }
 
 .name {
