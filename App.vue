@@ -98,7 +98,6 @@ export default {
       StyleSheet
     },
     methods: {
-
       updateGrad(year) {
         this.filter.grad = year
         this.filter.name = ''

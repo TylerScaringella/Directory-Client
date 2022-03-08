@@ -3,8 +3,9 @@
         <touchable-opacity 
             :on-press="() => openEmail()"
             >
-            <text class="name">{{student.name}}</text>
-            <text class="email">{{student.email}}</text>
+            <text class="name">{{ getName() }}</text>
+            <text class="danger" v-if="!attending">Left School</text>
+            <text class="email" v-else>{{student.email}}</text>
             <text class="graduation" :style="{
                 textAlign: 'right'
             }">Class of {{student.graduation}}</text>
@@ -17,10 +18,25 @@ import { Linking } from 'react-native'
 
 export default {
     props: {
-        student: {}
+        student: {},
+        attending: Boolean
     },
     methods: {
+        getName() {
+            if(this.student.name.includes('@stmarksschool.org')) {
+                this.attending = false
+                return this.student.email.replace('@stmarksschool.org', '')
+            }
+
+            this.attending = true;
+            return this.student.name
+        },
         openEmail() {
+            if(!this.attending) {
+                alert('This student no longer attends St. Marks\'s')
+                return;
+            }
+
             Linking.openURL(`mailto:${this.student.email}`)
         }
     }
@@ -54,5 +70,10 @@ export default {
     font-size: 10px;
     font-weight: 200;
     margin-top: 30px;
+}
+
+.danger {
+    color: #AA0000;
+    font-size: 12px;
 }
 </style>
